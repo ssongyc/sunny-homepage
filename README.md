@@ -20,7 +20,7 @@ https://ssongyc.github.io/sunny-homepage/
 * Hero vertical padding is `clamp(42px, 8vw, 64px)`.
 * Hero minimum height is `380px`.
 * Hero tagline font size is 1px larger than the base section kicker.
-* Hero title is sized to stay on one line on desktop, with mobile wrapping allowed.
+* Hero title is sized to stay on one line on desktop with `max-width: 100%` and `font-size: clamp(2.6rem, 5.2vw, 4.5rem)`, capping the title at 72px by default. Mobile wrapping remains allowed.
 * Hero copy is `Made with love in Canada & Korea.`
 * Primary hero buttons are ordered as `About the Lab`, then `View Games & Apps`.
 * About section references Sunny Innovation Lab as a voluntary group representing K-PADA, with K-PADA linked to the Toronto Korean community Facebook group.
