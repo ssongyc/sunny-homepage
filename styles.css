@@ -130,9 +130,10 @@ p {
 h1 {
   max-width: 920px;
   margin-bottom: 24px;
-  font-size: clamp(3rem, 7vw, 6.7rem);
+  font-size: clamp(3rem, 6.4vw, 5.9rem);
   line-height: 0.98;
   letter-spacing: 0;
+  white-space: nowrap;
 }
 
 h2 {
@@ -210,7 +211,7 @@ h3 {
 
 .about-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
 }
 
@@ -397,6 +398,11 @@ h3 {
 }
 
 @media (max-width: 560px) {
+  h1 {
+    font-size: clamp(2.55rem, 12vw, 3.2rem);
+    white-space: normal;
+  }
+
   .app-card {
     min-height: auto;
   }
