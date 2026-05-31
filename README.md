@@ -29,6 +29,7 @@ https://ssongyc.github.io/sunny-homepage/
 * Apps and games are displayed in a 2-column desktop grid and 1-column mobile grid.
 * Contact actions are ordered as email, Instagram, then X (Twitter), without the previous visible `Follow Sunny Innovation Lab` heading.
 * The contact email is rendered as an image and styled as the primary red button: `contact@sunnyinnolab.com`.
+* Footer shows `Sunny Innovation Lab` with Terms and Privacy links beside it.
 
 ## Deployment
 

@@ -364,6 +364,13 @@ h3 {
   font-size: 0.95rem;
 }
 
+.footer-brand-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
 @media (max-width: 1040px) {
   .about-grid {
     grid-template-columns: 1fr 1fr;
