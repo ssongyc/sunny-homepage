@@ -89,11 +89,11 @@ a {
 .hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(28px, 5vw, 64px);
   align-items: center;
   min-height: 620px;
-  padding: clamp(42px, 8vw, 86px) clamp(20px, 5vw, 72px);
+  padding: clamp(42px, 8vw, 64px) clamp(20px, 5vw, 72px);
   overflow: hidden;
   background: #c74432;
   color: #ffffff;
@@ -103,31 +103,6 @@ a {
   position: relative;
   z-index: 1;
   max-width: 920px;
-}
-
-.hero-media {
-  order: 2;
-}
-
-.phone-stack {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  align-items: end;
-}
-
-.phone-stack img {
-  width: 100%;
-  aspect-ratio: 9 / 16;
-  border: 1px solid rgba(255, 255, 255, 0.42);
-  border-radius: 8px;
-  background: #ffffff;
-  object-fit: cover;
-  box-shadow: 0 22px 58px rgba(78, 20, 10, 0.25);
-}
-
-.phone-stack img:nth-child(2) {
-  transform: translateY(-22px);
 }
 
 .eyebrow,
@@ -142,6 +117,7 @@ a {
 
 .hero .eyebrow {
   color: #ffe3a6;
+  font-size: calc(0.8rem + 1px);
 }
 
 h1,
@@ -255,7 +231,7 @@ h3 {
 
 .app-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
 }
 
@@ -268,10 +244,6 @@ h3 {
   border-radius: 8px;
   background: var(--surface);
   box-shadow: var(--shadow);
-}
-
-.app-card.featured {
-  grid-column: span 2;
 }
 
 .app-image {
@@ -333,8 +305,30 @@ h3 {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 24px;
-  align-items: center;
+  align-items: end;
   background: #ffffff;
+}
+
+.contact-links {
+  align-items: center;
+  padding-bottom: 4px;
+}
+
+.email-image {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.email-image img {
+  display: block;
+  width: min(248px, 58vw);
+  height: auto;
 }
 
 .site-footer {
@@ -348,14 +342,8 @@ h3 {
 }
 
 @media (max-width: 1040px) {
-  .hero,
-  .about-grid,
-  .app-grid {
+  .about-grid {
     grid-template-columns: 1fr 1fr;
-  }
-
-  .hero-media {
-    order: 0;
   }
 }
 
@@ -384,16 +372,9 @@ h3 {
     min-height: auto;
   }
 
-  .app-card.featured {
-    grid-column: auto;
-  }
 }
 
 @media (max-width: 560px) {
-  .hero-media {
-    display: none;
-  }
-
   .app-card {
     min-height: auto;
   }
