@@ -29,6 +29,7 @@ https://ssongyc.github.io/sunny-homepage/
 * About cards vertically center their text, keep linked inline text wrapped inside each paragraph, and the About section bottom padding is removed to tighten the gap before the apps section.
 * About mission copy starts with `Together, we learn, build, and create apps and games that make a difference.`
 * Apps and games are displayed in a 2-column desktop grid and 1-column mobile grid.
+* Apps section bottom padding is reduced to `clamp(21px, 4vw, 36px)` to tighten the gap before Contact.
 * Contact actions are ordered as email, Instagram, X (Twitter), then Threads, without the previous visible `Follow Sunny Innovation Lab` heading.
 * Contact section top padding is reduced to `clamp(10.5px, 2vw, 18px)`.
 * The contact email is rendered as an image and styled as the primary red button: `contact@sunnyinnolab.com`.

@@ -245,6 +245,7 @@ h3 {
 
 .apps-section {
   background: #f7fbf5;
+  padding-bottom: clamp(21px, 4vw, 36px);
 }
 
 .app-grid {
