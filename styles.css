@@ -92,7 +92,7 @@ a {
   grid-template-columns: minmax(0, 1fr);
   gap: clamp(28px, 5vw, 64px);
   align-items: center;
-  min-height: 620px;
+  min-height: 380px;
   padding: clamp(42px, 8vw, 64px) clamp(20px, 5vw, 72px);
   overflow: hidden;
   background: #c74432;
@@ -225,6 +225,13 @@ h3 {
   color: var(--muted);
 }
 
+.about-grid a {
+  color: var(--accent-dark);
+  font-weight: 850;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .apps-section {
   background: #f7fbf5;
 }
@@ -303,10 +310,19 @@ h3 {
 
 .contact {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 24px;
   align-items: end;
   background: #ffffff;
+}
+
+.contact-heading h2 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
 }
 
 .contact-links {
@@ -319,15 +335,21 @@ h3 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 11px 16px;
+  padding: 11px 18px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #ffffff;
 }
 
+.email-image.primary-email {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
 .email-image img {
   display: block;
-  width: min(248px, 58vw);
+  width: 218px;
+  max-width: calc(100vw - 40px);
   height: auto;
 }
 

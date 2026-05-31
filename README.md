@@ -18,11 +18,15 @@ https://ssongyc.github.io/sunny-homepage/
 
 * Hero section shows text only; the previous right-side app image stack was removed.
 * Hero vertical padding is `clamp(42px, 8vw, 64px)`.
+* Hero minimum height is `380px`.
 * Hero tagline font size is 1px larger than the base section kicker.
+* Hero copy is `Made with love in Canada & Korea.`
 * Primary hero buttons are ordered as `About the Lab`, then `View Games & Apps`.
+* About section references Sunny Innovation Lab as a voluntary group representing K-PADA, with K-PADA linked to the Toronto Korean community Facebook group.
+* About mission copy says the team learns together, builds together, and creates apps and games that make a difference.
 * Apps and games are displayed in a 2-column desktop grid and 1-column mobile grid.
-* Contact actions sit beside `Follow Sunny Innovation Lab` and are ordered as email, Instagram, then X (Twitter).
-* The contact email is rendered as an image: `contact@sunnyinnolab.com`.
+* Contact actions are ordered as email, Instagram, then X (Twitter), without the previous visible `Follow Sunny Innovation Lab` heading.
+* The contact email is rendered as an image and styled as the primary red button: `contact@sunnyinnolab.com`.
 
 ## Deployment
 
