@@ -26,10 +26,11 @@ https://ssongyc.github.io/sunny-homepage/
 * About section references Sunny Innovation Lab as a voluntary group representing K-PADA, with K-PADA linked to the Toronto Korean community Facebook group.
 * About title uses `font-size: clamp(26px, 3.3vw, 40px)`.
 * About section uses a 2-card layout after removing the previous full-development-process paragraph.
-* About cards vertically center their text, and the About section bottom padding is removed to tighten the gap before the apps section.
+* About cards vertically center their text, keep linked inline text wrapped inside each paragraph, and the About section bottom padding is removed to tighten the gap before the apps section.
 * About mission copy starts with `Together, we learn, build, and create apps and games that make a difference.`
 * Apps and games are displayed in a 2-column desktop grid and 1-column mobile grid.
 * Contact actions are ordered as email, Instagram, then X (Twitter), without the previous visible `Follow Sunny Innovation Lab` heading.
+* Contact section top padding is reduced to `clamp(21px, 4vw, 36px)`.
 * The contact email is rendered as an image and styled as the primary red button: `contact@sunnyinnolab.com`.
 * Footer shows `Sunny Innovation Lab` with Terms and Privacy links beside it.
 

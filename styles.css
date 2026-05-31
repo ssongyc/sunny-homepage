@@ -324,6 +324,7 @@ h3 {
   grid-template-columns: auto minmax(0, 1fr);
   gap: 24px;
   align-items: end;
+  padding-top: clamp(21px, 4vw, 36px);
   background: #ffffff;
 }
 
