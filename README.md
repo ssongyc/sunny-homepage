@@ -10,7 +10,6 @@ https://ssongyc.github.io/sunny-homepage/
 
 * `index.html`: homepage content and product order.
 * `styles.css`: responsive layout and visual styling.
-* `script.js`: smooth in-page anchor scrolling.
 * `assets/apps/`: app and game images.
 * `assets/contact-email.svg`: image-based contact email.
 
@@ -41,9 +40,16 @@ https://ssongyc.github.io/sunny-homepage/
 * The contact email is rendered as an image and styled as the primary red button: `contact@sunnyinnolab.com`.
 * Footer shows `Sunny Innovation Lab` with Terms and Privacy links beside it.
 
+## Analytics
+
+Google Analytics 4 is loaded directly in `index.html` with measurement ID
+`G-3N6GJT6LFE`.
+
 ## Deployment
 
-GitHub Pages is enabled from the `main` branch root:
+GitHub Pages deploys from the `main` branch root (`/`). The repository must
+remain public and the Pages source must remain set to `main / (root)` for the
+site to stay available.
 
 * Repository: https://github.com/ssongyc/sunny-homepage
 * Pages URL: https://ssongyc.github.io/sunny-homepage/
