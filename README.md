@@ -4,7 +4,7 @@ Static homepage for Sunny Innovation Lab.
 
 Published URL:
 
-https://ssongyc.github.io/sunny-homepage/
+https://sunnyinnolab.com/
 
 ## Structure
 
@@ -49,7 +49,10 @@ Google Analytics 4 is loaded directly in `index.html` with measurement ID
 
 GitHub Pages deploys from the `main` branch root (`/`). The repository must
 remain public and the Pages source must remain set to `main / (root)` for the
-site to stay available.
+site to stay available. The custom domain is declared by `CNAME`, and
+Cloudflare DNS points the apex domain and `www` host to GitHub Pages.
 
 * Repository: https://github.com/ssongyc/sunny-homepage
-* Pages URL: https://ssongyc.github.io/sunny-homepage/
+* Website: https://sunnyinnolab.com/
+* Legacy Pages URL (redirects to the website): https://ssongyc.github.io/sunny-homepage/
+* Email: `contact@sunnyinnolab.com` forwards to the verified Gmail destination through Cloudflare Email Routing.
