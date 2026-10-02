@@ -30,11 +30,10 @@ https://sunnyinnolab.com/
 * About mission copy starts with `Together, we learn, build, and create apps and games that make a difference.`
 * Apps and games are displayed in a 2-column desktop grid and 1-column mobile grid.
 * Subway Master is listed as a Casual Game app with App Store and Google Play links, positioned after Sky Peacemaker.
-* `assets/apps/subway-master.png` is used as the Subway Master app image.
+* Subway Master, Watermelon Checker, and decibella 2 use lossless 360px/768px WebP variants through responsive `srcset` markup. Their original `subway-master.png`, `watermelon-checker.jpg`, and `decibella-2.png` files remain as compatibility fallbacks, and intrinsic dimensions are declared to stabilize layout.
 * LED POP is listed as an LED Banner app with App Store and Google Play links.
 * `assets/apps/led-pop.png` is used as the LED POP app image.
 * decibella 2 is listed as a Sound Tool app with App Store and Google Play links, positioned to the left of decibella.
-* `assets/apps/decibella-2.png` is used as the decibella 2 app image.
 * Apps section bottom padding is reduced to `clamp(21px, 4vw, 36px)` to tighten the gap before Contact.
 * Contact actions are ordered as email, Instagram, X (Twitter), then Threads, without the previous visible `Follow Sunny Innovation Lab` heading.
 * Contact section top padding is reduced to `clamp(10.5px, 2vw, 18px)`.
