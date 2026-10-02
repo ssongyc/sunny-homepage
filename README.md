@@ -1,6 +1,6 @@
 # Sunny Innovation Lab Homepage
 
-Static homepage for Sunny Innovation Lab.
+Static website for Sunny Innovation Lab.
 
 Published URL:
 
@@ -10,6 +10,7 @@ https://sunnyinnolab.com/
 
 * `index.html`: homepage content and product order.
 * `styles.css`: responsive layout and visual styling.
+* `worldmovietrailer/index.html`: minimal World Movie Trailer page with centered text.
 * `assets/apps/`: app and game images.
 * `assets/contact-email.svg`: image-based contact email.
 
@@ -42,8 +43,11 @@ https://sunnyinnolab.com/
 
 ## Analytics
 
-Google Analytics 4 is loaded directly in `index.html` with measurement ID
-`G-3N6GJT6LFE`.
+Google Analytics 4 is loaded directly in `index.html` and
+`worldmovietrailer/index.html` with measurement ID `G-3N6GJT6LFE`.
+
+The website has no backend or application API integration. Store, community,
+social, Terms, and Privacy destinations are ordinary external links.
 
 ## Deployment
 
@@ -54,5 +58,6 @@ Cloudflare DNS points the apex domain and `www` host to GitHub Pages.
 
 * Repository: https://github.com/ssongyc/sunny-homepage
 * Website: https://sunnyinnolab.com/
+* World Movie Trailer page: https://sunnyinnolab.com/worldmovietrailer/
 * Legacy Pages URL (redirects to the website): https://ssongyc.github.io/sunny-homepage/
-* Email: `contact@sunnyinnolab.com` forwards to the verified Gmail destination through Cloudflare Email Routing.
+* Email: `contact@sunnyinnolab.com` is routed directly to Google Workspace.
