@@ -10,12 +10,17 @@ https://sunnyinnolab.com/
 
 * `index.html`: homepage content and product order.
 * `styles.css`: responsive layout and visual styling.
+* `CNAME`: GitHub Pages custom domain (`sunnyinnolab.com`).
 * `sitemap.xml`: sitemap containing the canonical homepage URL only.
 * `robots.txt`: allows crawling and advertises the homepage sitemap.
-* `worldmovietrailer/index.html`: minimal World Movie Trailer page with centered text.
+* `worldmovietrailer/index.html`: legacy placeholder with centered World Movie Trailer text; not the separately hosted movie web app.
 * `assets/apps/`: app and game images.
 * `assets/brand/`: official logo, social preview, favicon, and Apple touch icon.
 * `assets/contact-email.svg`: image-based contact email.
+
+This repository is plain HTML/CSS with inline JavaScript, without a package
+manager, local build command, or backend. Open `index.html` in a browser for
+local layout preview; publishing is handled by GitHub Pages.
 
 ## Current Homepage Notes
 
@@ -60,7 +65,7 @@ On 2026-10-09, one manual World Book Ranking Website click was received in GA4
 Realtime with `app_name` and `destination_type`. This verification click counts
 as a click, not an app installation.
 
-### Saved Click Report
+### Saved Traffic and Click Report
 
 GA4 Explore report: [Sunny Homepage - App Clicks & Social Campaigns](https://analytics.google.com/analytics/web/#/analysis/a396550436p539972581/edit/ZVRRJAfdSn2l20RSlOervQ).
 Open it using the existing account with access to Sunny Homepage.
@@ -71,11 +76,40 @@ Open it using the existing account with access to Sunny Homepage.
   This tab retains other traffic sources for comparison with tagged social traffic.
 * Both tabs use Event count and filter Event name exactly to `app_link_click`.
   Enhanced-measurement `click` events are not included or added to this total.
+* `Social Traffic & Engagement`: rows are Session source / medium, Session
+  campaign, and Session manual ad content; values are Active users, Sessions,
+  and Engagement rate. It has no event filter, app-name row, or destination
+  column, so ordinary visits are not restricted to users who clicked a button.
+* `Social Store Clicks`: retains the social/app rows and destination columns,
+  with Event count filtered to `app_link_click` and Destination type matching
+  `^(App Store|Google Play)$`. Website clicks are excluded. Compare this tab
+  with the traffic summary using the same date range; do not sum these clicks
+  with the original click tabs or the derived event below.
+* The two additional tabs were saved and verified after reload on 2026-10-09.
 * The default date range is Last 28 days, excluding the current partial day.
   Custom dimensions can take 24-48 hours to become available in regular reports.
   `No data available` is not proof that realtime collection has failed.
-* The report measures click events, including repeat clicks, not unique
-  installations. Its creation does not publish or edit social posts.
+* Click tabs measure events, including repeat clicks, not unique installations.
+  The traffic summary measures website visits and engagement. Report changes
+  do not publish or edit social posts.
+
+### Store Click Key Event
+
+On 2026-10-09, GA4 configuration for the Sunny Homepage stream was saved and
+read back with these settings:
+
+* Derived event: `app_store_click`.
+* Source event: `event_name` equals `app_link_click`.
+* Additional condition: `destination_type` matches `^(App Store|Google Play)$`.
+* Source parameters are copied, preserving app name, destination, and link URL.
+* Marked as a key event, counted once per event, without a default monetary value.
+
+The existing source event remains unchanged; Website clicks are still tracked
+by `app_link_click` but do not generate this key event. The derived event is
+configured in GA4, not emitted separately by homepage code. No Google Ads
+conversion or advertising integration was added. Configuration persistence was
+verified; actual receipt of the new derived event is not yet verified. Do not
+treat it as an installation, revenue, or retroactive reprocessing of old clicks.
 
 ### Social Campaign Links
 
@@ -97,9 +131,13 @@ No existing social post was edited or new post published.
   updated and verified after reload. The personal profile remains unchanged.
 
 Other profile/channel information and store marketing, support, and privacy
-URLs were not changed by these social-link updates. Channel-attributed traffic
-has not yet been verified in GA4 for every link; saved links alone do not prove
-that campaign visits have been received.
+URLs were not changed by these social-link updates. On 2026-10-09, manual visits
+to all five saved UTM addresses appeared in GA4 Realtime `page_view` /
+`page_location`, one event per address. These are QA visits, not evidence of
+organic social performance or five unique users. The addresses were opened
+directly, so this does not verify every social platform's redirect behavior.
+Separate channel-attributed sessions remain unverified: visits in the same
+session must not be interpreted as five independently attributed sessions.
 
 | Source | Placement | Homepage link |
 | --- | --- | --- |
@@ -170,13 +208,20 @@ not real-user performance data or a guarantee of search indexing.
 Remaining diagnostics include image delivery/dimensions, cache lifetime,
 and Google tag JavaScript. Analytics was retained; no image quality was reduced.
 
-Local accessibility changes give navigation/footer links a minimum 44px
+Accessibility changes give navigation/footer links a minimum 44px
 width, darken small section labels and the email background, add a visible
 keyboard focus outline, and respect reduced-motion preferences. During the
 initial local review, these changes were not yet deployed or measured in a
 post-change browser run. The browser blocked local file preview; that review
 did not run a build, lint, commit, push, or deployment. The existing PageSpeed
 scores above describe the public site before these CSS changes.
+
+Subsequent delivery on 2026-10-09 committed those changes in
+`f63d23505d6eb2af5462f2a75704f28224e435a1`. The GitHub Pages
+[deployment run](https://github.com/ssongyc/sunny-homepage/actions/runs/37926329801)
+completed successfully, and the public stylesheet contained the updated rules.
+A post-deployment visual/accessibility measurement was not completed; the
+existing PageSpeed scores are still the pre-change results.
 
 Store marketing URLs must remain `https://sunnyinnovationlab.blogspot.com`
 because of the existing AdMob association. The World Book Ranking English
@@ -195,6 +240,18 @@ Cloudflare DNS points the apex domain and `www` host to GitHub Pages.
 
 * Repository: https://github.com/ssongyc/sunny-homepage
 * Website: https://sunnyinnolab.com/
-* World Movie Trailer page: https://sunnyinnolab.com/worldmovietrailer/
+* Legacy World Movie Trailer placeholder: https://sunnyinnolab.com/worldmovietrailer/
 * Legacy Pages URL (redirects to the website): https://ssongyc.github.io/sunny-homepage/
 * Email: `contact@sunnyinnolab.com` is routed directly to Google Workspace.
+
+World Book Ranking and the movie web app use separate hosting/projects; this
+repository does not contain their application code or deployment configuration.
+
+## Maintenance Review
+
+On 2026-10-09, the tracked HTML, CSS, assets, crawler files, and domain declaration
+were reviewed for references. No unused file or application API was confirmed.
+Keep the original PNG/JPG images used by `<picture>` compatibility sources,
+responsive WebP variants, structured-data/social-preview logos, favicon/touch
+icons, Google tag, and the legacy direct-access page. Absence from the navigation
+alone does not make a public page unused. This review ran no build, lint, or test.
