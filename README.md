@@ -14,6 +14,7 @@ https://sunnyinnolab.com/
 * `robots.txt`: allows crawling and advertises the homepage sitemap.
 * `worldmovietrailer/index.html`: minimal World Movie Trailer page with centered text.
 * `assets/apps/`: app and game images.
+* `assets/brand/`: official logo, social preview, favicon, and Apple touch icon.
 * `assets/contact-email.svg`: image-based contact email.
 
 ## Current Homepage Notes
@@ -63,7 +64,16 @@ that Google has indexed the homepage. World Book Ranking uses its own sitemap.
 The homepage title and description identify the mobile games and apps catalog.
 Open Graph metadata uses the same title and description. JSON-LD describes the
 Organization, its existing official social links, and the WebSite publisher.
-No logo property is declared because this repository has no official logo asset.
+The official logo is included in Organization metadata. Open Graph and X/Twitter
+summary cards use a 1024px square white-background logo. Favicons (48px and 96px)
+and the Apple touch icon (180px) use the sun symbol extracted from the logo.
+
+Brand assets were provided with permission to adapt them from Google Drive:
+`https://drive.google.com/drive/folders/1ndpZKgUlx8Zx9dx43KSO2HmgLXmFTmW6`.
+The source is `logo_sil_black_1024.png`; the master remains in Drive. The shipped
+transparent PNG uses lossless PNG compression, reduced from 32,766 to 30,052
+bytes without resizing. The white-background social preview is 31,196 bytes;
+48px/96px/180px icons are 2,237/5,042/10,738 bytes. No app/game icon was changed.
 
 ## Deployment
 
