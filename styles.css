@@ -32,6 +32,11 @@ a {
   text-decoration: none;
 }
 
+a:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
 .site-header {
   position: sticky;
   top: 0;
@@ -74,6 +79,7 @@ a {
 
 .nav a,
 .site-footer a {
+  min-width: 44px;
   min-height: 44px;
   display: inline-flex;
   align-items: center;
@@ -116,6 +122,10 @@ a {
 .hero .eyebrow {
   color: #ffe3a6;
   font-size: calc(0.8rem + 1px);
+}
+
+.section-kicker {
+  color: var(--accent-dark);
 }
 
 h1,
@@ -359,8 +369,8 @@ h3 {
 }
 
 .email-image.primary-email {
-  border-color: var(--accent);
-  background: var(--accent);
+  border-color: var(--accent-dark);
+  background: var(--accent-dark);
 }
 
 .email-image img {
@@ -438,5 +448,19 @@ h3 {
   .site-footer {
     align-items: flex-start;
     flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .button {
+    transition: none;
+  }
+
+  .button:hover {
+    transform: none;
   }
 }
