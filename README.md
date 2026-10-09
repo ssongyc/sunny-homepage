@@ -60,6 +60,11 @@ verified using existing DNS records on 2026-10-09. Keep those verification
 records in place. Sitemap submission and indexing requests do not guarantee
 that Google has indexed the homepage. World Book Ranking uses its own sitemap.
 
+The homepage title and description identify the mobile games and apps catalog.
+Open Graph metadata uses the same title and description. JSON-LD describes the
+Organization, its existing official social links, and the WebSite publisher.
+No logo property is declared because this repository has no official logo asset.
+
 ## Deployment
 
 GitHub Pages deploys from the `main` branch root (`/`). The repository must
