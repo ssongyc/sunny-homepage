@@ -49,6 +49,14 @@ https://sunnyinnolab.com/
 Google Analytics 4 is loaded directly in `index.html` and
 `worldmovietrailer/index.html` with measurement ID `G-3N6GJT6LFE`.
 
+Homepage product buttons send the custom event `app_link_click` with `app_name`,
+`destination_type` (`App Store`, `Google Play`, or `Website`), and `link_url`.
+The event does not delay or prevent link navigation. It is separate from GA4's
+enhanced-measurement `click` event and measures clicks, not app installs.
+The Sunny Homepage GA4 property (`539972581`) has event-scoped custom dimensions
+`Catalog app name` (`app_name`) and `Destination type` (`destination_type`).
+Use them with the `app_link_click` event in Explore for app/destination breakdowns.
+
 The website has no backend or application API integration. Store, community,
 social, Terms, and Privacy destinations are ordinary external links.
 
@@ -60,6 +68,10 @@ Google Search Console ownership for `sunnyinnolab.com` was automatically
 verified using existing DNS records on 2026-10-09. Keep those verification
 records in place. Sitemap submission and indexing requests do not guarantee
 that Google has indexed the homepage. World Book Ranking uses its own sitemap.
+
+Bing Webmaster Tools uses the homepage `msvalidate.01` meta tag for ownership
+verification. Keep this tag in place after verification. Submit the canonical
+`https://sunnyinnolab.com/sitemap.xml` sitemap; registration is not proof of indexing.
 
 The homepage title and description identify the mobile games and apps catalog.
 Open Graph metadata uses the same title and description. JSON-LD describes the

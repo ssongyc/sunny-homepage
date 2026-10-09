@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta name="msvalidate.01" content="8E7D4AD05E5983E7849033C4904135BA" />
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-3N6GJT6LFE"></script>
     <script>
@@ -377,5 +378,19 @@
       </div>
       <a href="#top">Back to top</a>
     </footer>
+    <script>
+      document.querySelector('#apps').addEventListener('click', function (event) {
+        const link = event.target.closest('.download-links a');
+        if (!link) return;
+
+        const appName = link.closest('.app-card').querySelector('h3').textContent.trim();
+        gtag('event', 'app_link_click', {
+          send_to: 'G-3N6GJT6LFE',
+          app_name: appName,
+          destination_type: link.textContent.trim(),
+          link_url: link.href
+        });
+      });
+    </script>
   </body>
 </html>
