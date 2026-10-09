@@ -56,6 +56,9 @@ enhanced-measurement `click` event and measures clicks, not app installs.
 The Sunny Homepage GA4 property (`539972581`) has event-scoped custom dimensions
 `Catalog app name` (`app_name`) and `Destination type` (`destination_type`).
 Use them with the `app_link_click` event in Explore for app/destination breakdowns.
+On 2026-10-09, one manual World Book Ranking Website click was received in GA4
+Realtime with `app_name` and `destination_type`. This verification click counts
+as a click, not an app installation.
 
 The website has no backend or application API integration. Store, community,
 social, Terms, and Privacy destinations are ordinary external links.
@@ -72,6 +75,9 @@ that Google has indexed the homepage. World Book Ranking uses its own sitemap.
 Bing Webmaster Tools uses the homepage `msvalidate.01` meta tag for ownership
 verification. Keep this tag in place after verification. Submit the canonical
 `https://sunnyinnolab.com/sitemap.xml` sitemap; registration is not proof of indexing.
+Ownership verification and sitemap submission completed on 2026-10-09. Bing
+confirmed successful submission and showed `Processing`; indexing is not yet
+confirmed.
 
 The homepage title and description identify the mobile games and apps catalog.
 Open Graph metadata uses the same title and description. JSON-LD describes the
