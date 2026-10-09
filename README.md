@@ -10,6 +10,8 @@ https://sunnyinnolab.com/
 
 * `index.html`: homepage content and product order.
 * `styles.css`: responsive layout and visual styling.
+* `sitemap.xml`: sitemap containing the canonical homepage URL only.
+* `robots.txt`: allows crawling and advertises the homepage sitemap.
 * `worldmovietrailer/index.html`: minimal World Movie Trailer page with centered text.
 * `assets/apps/`: app and game images.
 * `assets/contact-email.svg`: image-based contact email.
@@ -48,6 +50,15 @@ Google Analytics 4 is loaded directly in `index.html` and
 
 The website has no backend or application API integration. Store, community,
 social, Terms, and Privacy destinations are ordinary external links.
+
+## Search Discovery
+
+The homepage canonical URL is `https://sunnyinnolab.com/`. Its sitemap is
+`https://sunnyinnolab.com/sitemap.xml`; section anchors are not separate pages.
+Google Search Console ownership for `sunnyinnolab.com` was automatically
+verified using existing DNS records on 2026-10-09. Keep those verification
+records in place. Sitemap submission and indexing requests do not guarantee
+that Google has indexed the homepage. World Book Ranking uses its own sitemap.
 
 ## Deployment
 
