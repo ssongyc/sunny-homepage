@@ -32,6 +32,7 @@ https://sunnyinnolab.com/
 * Subway Master is listed as a Casual Game app with App Store and Google Play links, positioned after Sky Peacemaker.
 * Subway Master, Watermelon Checker, and decibella 2 use lossless 360px/768px WebP variants through responsive `srcset` markup. Their original `subway-master.png`, `watermelon-checker.jpg`, and `decibella-2.png` files remain as compatibility fallbacks, and intrinsic dimensions are declared to stabilize layout.
 * LED POP is listed as an LED Banner app with App Store and Google Play links.
+* World Book Ranking has App Store, Google Play, and Website buttons. The Website button links to `https://worldbookranking.sunnyinnolab.com/` and uses the same styling as the store buttons.
 * `assets/apps/led-pop.png` is used as the LED POP app image.
 * decibella 2 is listed as a Sound Tool app with App Store and Google Play links, positioned to the left of decibella.
 * Apps section bottom padding is reduced to `clamp(21px, 4vw, 36px)` to tighten the gap before Contact.
