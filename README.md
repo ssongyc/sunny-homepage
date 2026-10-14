@@ -11,6 +11,7 @@ https://sunnyinnolab.com/
 * `index.html`: homepage content and product order.
 * `styles.css`: responsive layout and visual styling.
 * `analytics.js`: shared production-only GA4 initialization and homepage events.
+* `.eslintrc.json`: ESLint 8 recommended rules for browser JavaScript.
 * `CNAME`: GitHub Pages custom domain (`sunnyinnolab.com`).
 * `sitemap.xml`: sitemap containing the canonical homepage URL only.
 * `robots.txt`: allows crawling and advertises the homepage sitemap.
@@ -22,6 +23,20 @@ https://sunnyinnolab.com/
 This repository is plain HTML/CSS with vanilla JavaScript, without a package
 manager, local build command, or backend. Open `index.html` in a browser for
 local layout preview; publishing is handled by GitHub Pages.
+
+### Lint
+
+Lint the shipped JavaScript with ESLint 8 and `.eslintrc.json`:
+
+```powershell
+npx --yes eslint@8.57.1 analytics.js --max-warnings 0
+```
+
+This is a development-only tool, not a shipped dependency or a build step.
+This command may download ESLint into npm's cache if it is not installed.
+ESLint 8 is used here to match the existing installed workstation tool; the
+legacy configuration is not an ESLint 9+ flat config. This lint scope covers
+`analytics.js`, not HTML, CSS, JSON-LD, accessibility or runtime event receipt.
 
 ## Current Homepage Notes
 
@@ -139,6 +154,26 @@ On 2026-10-09, one manual World Book Ranking Website click was received in GA4
 Realtime with `app_name` and `destination_type`. This verification click counts
 as a click, not an app installation.
 
+### Reports Snapshot - 2026-10-14
+
+[Sunny Homepage Reports snapshot](https://analytics.google.com/analytics/web/#/a396550436p539972581/reports/reportinghub)
+was configured using the World Movie Trailer-Web snapshot as a reference.
+The User behavior template was selected and customized; saving and reloading
+confirmed the configuration. World Movie Trailer-Web was read only.
+
+* Top metrics: Active users, New users, Average engagement time per active user,
+  Event count.
+* Ten cards: Top pages/screens (including bounce rate), New vs Returning users,
+  engagement time, Event count by Event name, Sessions by Session primary channel
+  group, Active users by Device category, Realtime, Sessions/Active users/Key
+  events, Total users/Views/Event count and User retention.
+* Movie-country-specific cards were not copied to the homepage. App and section
+  breakdowns remain in the saved exploration above; the snapshot's event-name
+  card includes homepage custom events when they are available in its date range.
+* The selected report range is Last 28 days excluding today; User retention uses
+  its own Last 42 days window shown on that card. The realtime card covers the
+  last 30 minutes. Do not interpret these different periods as the same total.
+
 ### Saved Traffic and Click Report
 
 GA4 Explore report: [Sunny Homepage - App Clicks & Social Campaigns](https://analytics.google.com/analytics/web/#/analysis/a396550436p539972581/edit/ZVRRJAfdSn2l20RSlOervQ).
@@ -248,6 +283,21 @@ verified using existing DNS records on 2026-10-09. Keep those verification
 records in place. Sitemap submission and indexing requests do not guarantee
 that Google has indexed the homepage. World Book Ranking uses its own sitemap.
 
+On 2026-10-12, the scheduled one-time recheck showed `Success` and `Sitemap
+processed successfully` for the homepage sitemap, last read 2026-10-09, with one
+discovered page. The public response was HTTP 200 with `application/xml` and a
+valid `urlset`; robots.txt allowed crawling. No resubmission, DNS, code or console
+setting change was made, and the completed one-time automation was deleted.
+The earlier `Couldn't fetch` cause was not established. Sitemap success is not
+proof of indexing or ranking.
+
+The 2026-10-11 unparsable structured-data alert in the domain property affected
+`https://worldbookranking.sunnyinnolab.com/`, not this homepage. Its separate
+repository fixed escaped JSON-LD quotes in commit `f895220`, and public home,
+About and Bookmarks JSON-LD parsing was verified after deployment. Google
+validation was started on 2026-10-11; its final result has not been rechecked
+in this homepage maintenance task.
+
 Bing Webmaster Tools uses the homepage `msvalidate.01` meta tag for ownership
 verification. Keep this tag in place after verification. Submit the canonical
 `https://sunnyinnolab.com/sitemap.xml` sitemap; registration is not proof of indexing.
@@ -329,3 +379,33 @@ Keep the original PNG/JPG images used by `<picture>` compatibility sources,
 responsive WebP variants, structured-data/social-preview logos, favicon/touch
 icons, Google tag, and the legacy direct-access page. Absence from the navigation
 alone does not make a public page unused. This review ran no build, lint, or test.
+
+On 2026-10-14, maintenance started from clean `main` at
+`10dbabd0b4726ce4430596e71b5278b6019986b1`. All 27 image assets are referenced
+by the HTML/metadata; no unused file or application API was confirmed. The
+legacy direct-access page and compatibility images remain intentionally kept.
+Removed the redundant 1040px About-grid rule: the base rule already uses two
+equal columns, and the existing 760px breakpoint still changes it to one column.
+Updated this README with the saved Reports snapshot and lint procedure.
+Ran the existing installed ESLint 8.57.1 using
+`node C:/dev/WorldBookRanking-Web/mobileToWeb/node_modules/eslint/bin/eslint.js analytics.js --max-warnings 0`:
+exit 0, no errors or warnings. No package was installed and no dependency files
+in the other repository were changed. No build, tests, commit, push or deployment
+was performed for this maintenance update.
+
+### Documentation Delivery - 2026-10-14
+
+Reviewed all outstanding homepage changes: README updates, removal of the
+redundant About-grid CSS rule, and the ESLint configuration all belong to this
+conversation. Earlier Analytics source and verification records are already
+in `4aba7ec` and `10dbabd`. The homepage has only its main worktree/branch.
+The separately affected World Book Ranking checkout was also clean with only
+its main worktree; no changes were taken from other contributors or merged.
+This delivery runs no build, lint or tests; the lint result above is the prior
+authorized run. Commit/push triggers the existing Pages publication workflow,
+but this delivery does not claim a new completed deployment or runtime check.
+
+Remaining verification: HTML/CSS lint and post-change accessibility/layout
+checks, fresh receipt checks for app/store/social/policy/community clicks, and
+the final Google structured-data validation result. These limits do not mean
+the saved GA4 dimensions, explorations or Reports snapshot are unfinished.
