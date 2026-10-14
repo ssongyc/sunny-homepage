@@ -120,7 +120,7 @@ a:focus-visible {
 }
 
 .hero .eyebrow {
-  color: #ffe3a6;
+  color: #ffffff;
   font-size: calc(0.8rem + 1px);
 }
 
@@ -164,7 +164,7 @@ h3 {
 .hero-copy {
   max-width: 650px;
   margin-bottom: 34px;
-  color: rgba(255, 255, 255, 0.88);
+  color: #ffffff;
   font-size: clamp(1rem, 2vw, 1.2rem);
 }
 

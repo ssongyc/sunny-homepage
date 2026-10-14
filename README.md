@@ -12,6 +12,8 @@ https://sunnyinnolab.com/
 * `styles.css`: responsive layout and visual styling.
 * `analytics.js`: shared production-only GA4 initialization and homepage events.
 * `.eslintrc.json`: ESLint 8 recommended rules for browser JavaScript.
+* `.htmlvalidate.json`: recommended HTML validation with self-closing void tags.
+* `.stylelintrc.json`: CSS correctness checks, without formatting-only rules.
 * `CNAME`: GitHub Pages custom domain (`sunnyinnolab.com`).
 * `sitemap.xml`: sitemap containing the canonical homepage URL only.
 * `robots.txt`: allows crawling and advertises the homepage sitemap.
@@ -37,6 +39,17 @@ This command may download ESLint into npm's cache if it is not installed.
 ESLint 8 is used here to match the existing installed workstation tool; the
 legacy configuration is not an ESLint 9+ flat config. This lint scope covers
 `analytics.js`, not HTML, CSS, JSON-LD, accessibility or runtime event receipt.
+
+HTML and CSS validation commands (development-only npm cache tools):
+
+```powershell
+npx --yes html-validate@11.16.2 index.html worldmovietrailer/index.html
+npx --yes stylelint@17.16.0 styles.css --config .stylelintrc.json
+```
+
+The CSS rules check syntax-related correctness, unknown properties/functions,
+duplicate declarations and invalid hex colors; they are not a full design or
+accessibility audit. These commands do not build or deploy the website.
 
 ## Current Homepage Notes
 
@@ -295,8 +308,9 @@ The 2026-10-11 unparsable structured-data alert in the domain property affected
 `https://worldbookranking.sunnyinnolab.com/`, not this homepage. Its separate
 repository fixed escaped JSON-LD quotes in commit `f895220`, and public home,
 About and Bookmarks JSON-LD parsing was verified after deployment. Google
-validation was started on 2026-10-11; its final result has not been rechecked
-in this homepage maintenance task.
+validation was started on 2026-10-11. On 2026-10-14 the authenticated Search
+Console report showed `Validation passed` (passed 2026-10-12), affected pages 0,
+last report update 2026-10-13. No new validation request was submitted.
 
 Bing Webmaster Tools uses the homepage `msvalidate.01` meta tag for ownership
 verification. Keep this tag in place after verification. Submit the canonical
@@ -409,3 +423,60 @@ Remaining verification: HTML/CSS lint and post-change accessibility/layout
 checks, fresh receipt checks for app/store/social/policy/community clicks, and
 the final Google structured-data validation result. These limits do not mean
 the saved GA4 dimensions, explorations or Reports snapshot are unfinished.
+
+### Additional Verification - 2026-10-14
+
+Started from clean `main` at `923bd20114a0f7500f4b17f403c4b3f489263164`.
+The previous remaining-verification list above records the delivery-time state;
+the checks requested afterwards are recorded here.
+
+* HTML validation initially reported 10 errors. Corrected uppercase DOCTYPEs,
+  encoded text ampersands without changing displayed wording, assigned the
+  existing hero action label to a group, and assigned the existing email label
+  to an image role. Both HTML files then passed html-validate 11.16.2, exit 0.
+* styles.css passed Stylelint 17.16.0 before and after the color correction,
+  exit 0. analytics.js passed the existing ESLint 8.57.1, exit 0. No local build
+  or production deployment was performed for these corrections.
+* Public and corrected local pages were checked at 320, 375, 600, 760 and 1280px
+  widths, 900px height: no horizontal overflow and no major navigation/store/
+  action/footer target smaller than 44x44 CSS px. Desktop/mobile screenshots
+  were visually inspected. All 27 local image asset URLs returned HTTP 200.
+* DOM accessibility checks found no missing image alt attributes, unnamed links
+  or duplicate IDs; one main landmark, one H1 and English document language.
+  A keyboard Tab check showed visible solid focus on the home link. Computed
+  text contrast was checked for 99 text/link elements: two small hero text
+  styles were below 4.5:1 (3.90 and 4.13). Both were changed to white, with
+  corrected local contrast 4.88:1. No new notice or visible wording was added.
+* Local loading did not load the Google tag. Operating-site clicks reached
+  Subway Master on App Store and Google Play, World Book Ranking Website,
+  Instagram, X, Threads, Terms, Privacy and K-PADA. This samples store platforms
+  and event types; it does not verify every catalog app listing.
+* GA4 Realtime received app_link_click 3, app_store_click 2, policy_link_click 2,
+  community_link_click 1 and social_link_click 3 in the verification window.
+  Instagram and X were first confirmed in destination_type. Threads was not
+  visible after the first rapid navigation sequence; a separate manual click
+  after page loading raised social_link_click to 3; the destination_type detail
+  then showed Instagram, Threads and X (Twitter), one event each. These are QA
+  visits/clicks, not organic acquisition or installs. No automatic retry logic
+  was added.
+* Google structured-data validation passed as recorded in Search Discovery.
+
+These checks are not WCAG certification, a screen-reader/device audit or a new
+Lighthouse performance score. At the end of verification, the HTML and contrast
+corrections had not yet been committed or published; the operating site still
+used its pre-correction markup and hero text colors.
+
+### Verification Delivery - 2026-10-14
+
+The user authorized documentation, commit and push of the homepage corrections.
+Reviewed all six outstanding files: README.md, index.html, styles.css,
+worldmovietrailer/index.html, .htmlvalidate.json and .stylelintrc.json. All belong
+to this conversation; previous homepage changes are already committed. There
+is only one homepage branch/worktree, main. No merge is needed or performed.
+The separate WorldBookRanking-Web checkout has newer unrelated/unclear changes;
+the user explicitly chose homepage-only delivery and preservation of those
+changes. They are not staged, committed or modified by this delivery.
+No build, lint or tests are rerun for this delivery. The verification results
+above describe the prior authorized checks. GitHub Pages publication is
+triggered by pushing main; production completion and post-publication checks
+are not newly verified in this commit/push-only task.
