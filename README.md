@@ -70,6 +70,7 @@ accessibility audit. These commands do not build or deploy the website.
 * Subway Master, Watermelon Checker, and decibella 2 use lossless 360px/768px WebP variants through responsive `srcset` markup. Their original `subway-master.png`, `watermelon-checker.jpg`, and `decibella-2.png` files remain as compatibility fallbacks, and intrinsic dimensions are declared to stabilize layout.
 * LED POP is listed as an LED Banner app with App Store and Google Play links.
 * World Book Ranking has App Store, Google Play, and Website buttons. The Website button links to `https://worldbookranking.sunnyinnolab.com/` and uses the same styling as the store buttons.
+* World Movie Trailer also has a Website button after App Store and Google Play, linking to `https://worldmovietrailer.sunnyinnolab.com/` with the same styling. The existing `app_link_click` handler records it with destination type `Website`; it is not a store-click key event.
 * `assets/apps/led-pop.png` is used as the LED POP app image.
 * decibella 2 is listed as a Sound Tool app with App Store and Google Play links, positioned to the left of decibella.
 * Apps section bottom padding is reduced to `clamp(21px, 4vw, 36px)` to tighten the gap before Contact.
