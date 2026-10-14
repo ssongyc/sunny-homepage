@@ -10,6 +10,7 @@ https://sunnyinnolab.com/
 
 * `index.html`: homepage content and product order.
 * `styles.css`: responsive layout and visual styling.
+* `analytics.js`: shared production-only GA4 initialization and homepage events.
 * `CNAME`: GitHub Pages custom domain (`sunnyinnolab.com`).
 * `sitemap.xml`: sitemap containing the canonical homepage URL only.
 * `robots.txt`: allows crawling and advertises the homepage sitemap.
@@ -18,7 +19,7 @@ https://sunnyinnolab.com/
 * `assets/brand/`: official logo, social preview, favicon, and Apple touch icon.
 * `assets/contact-email.svg`: image-based contact email.
 
-This repository is plain HTML/CSS with inline JavaScript, without a package
+This repository is plain HTML/CSS with vanilla JavaScript, without a package
 manager, local build command, or backend. Open `index.html` in a browser for
 local layout preview; publishing is handled by GitHub Pages.
 
@@ -51,8 +52,52 @@ local layout preview; publishing is handled by GitHub Pages.
 
 ## Analytics
 
-Google Analytics 4 is loaded directly in `index.html` and
-`worldmovietrailer/index.html` with measurement ID `G-3N6GJT6LFE`.
+Google Analytics 4 is initialized by shared `analytics.js` from `index.html` and
+`worldmovietrailer/index.html` with measurement ID `G-3N6GJT6LFE`. Only the exact
+production hostname `sunnyinnolab.com` loads the Google tag. Local files,
+localhost, GitHub Pages hostnames and preview hosts do not send analytics.
+
+### Measurement Improvements - 2026-10-14
+
+Compared with the current World Book Ranking and World Movie Trailer web
+implementations, the homepage now uses production gating, a bounded custom
+event list and measurement failures logged without blocking navigation.
+The existing automatic initial `page_view` is retained. Section anchors and
+scroll exposure do not emit synthetic page views. GA4 owns session, engagement,
+retention and bounce-rate calculations; this code does not fabricate them.
+
+| Event | Meaning / parameters |
+| --- | --- |
+| `app_link_click` | Existing event retained; `app_name`, `destination_type`, `link_url`, plus `app_category` |
+| `navigation_click` | Anchor navigation; `section`, `menu_location` |
+| `section_view` | Section exposure; `section` |
+| `app_card_view` | Product exposure; `app_name`, `app_category` |
+| `social_link_click` | Contact social links; `destination_type`, `link_url` |
+| `policy_link_click` | Terms/Privacy; `destination_type`, `link_url` |
+| `community_link_click` | About community link; `destination_type`, `link_url` |
+
+Exposure means at least 10% of the element intersects the viewport continuously
+for one second while the document is visible. Each element is counted once per
+document load, not once per session or unique user. Hidden tabs cancel the timer.
+These are element exposure metrics, not proof of reading, installs or purchases.
+Existing enhanced-measurement `scroll` (90% depth) and outbound `click` remain
+separate; do not sum them with these custom events as a single action total.
+
+Existing `app_name` and `destination_type` custom dimensions remain compatible.
+On 2026-10-14, event-scoped dimensions were saved in GA4: `Homepage section`
+(`section`), `Navigation location` (`menu_location`) and `App category`
+(`app_category`). Compare `app_card_view` with `app_link_click`
+by app using the same date range; repeat clicks mean this is not a unique-user
+conversion rate. No email/user ID is added to custom parameters. Link URLs are
+existing fixed site destinations, not arbitrary inbound query values.
+
+Baseline: clean `main` at `55540a445753454a0d2cfd395c048b5eac2a8d0c`.
+The user approved main delivery, publication and GA4 console/report setup.
+No local build, lint or test was run; this static repository has no build step.
+GitHub Pages publishes from `main` at the repository root. Production collection
+and report availability must be verified separately from source publication.
+References: [GA4 page views](https://developers.google.com/analytics/devguides/collection/ga4/views)
+and [enhanced measurement](https://support.google.com/analytics/answer/9216061).
 
 Homepage product buttons send the custom event `app_link_click` with `app_name`,
 `destination_type` (`App Store`, `Google Play`, or `Website`), and `link_url`.
