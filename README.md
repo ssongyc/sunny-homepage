@@ -96,6 +96,35 @@ The user approved main delivery, publication and GA4 console/report setup.
 No local build, lint or test was run; this static repository has no build step.
 GitHub Pages publishes from `main` at the repository root. Production collection
 and report availability must be verified separately from source publication.
+
+Delivery verification on 2026-10-14: implementation commit `4aba7ec` was pushed
+to `origin/main`; GitHub Pages run `38602092154` completed successfully. Public
+homepage and `analytics.js` returned HTTP 200 with the new shared script.
+The three new custom dimensions remained saved after reload. GA4 Realtime
+received `app_card_view`, `section_view` and `navigation_click` during one manual
+homepage/Apps navigation check. These are QA events, not organic customer
+activity. App/store, social, policy and community click receipt was not newly
+verified in this update. No local automated tests or lint were executed.
+
+Saved exploration: [Sunny Homepage - Visits & Interactions](https://analytics.google.com/analytics/web/#/analysis/a396550436p539972581/edit/rqgUmfCKSISdtALez4TwQg).
+All five tabs persisted after reload:
+
+* `Daily Visits`: Date rows (up to 50); Active users, New users, Returning users,
+  Sessions, Engagement rate and Bounce rate. No event filter restricts visits.
+* `Interaction Events`: Event name rows and Event count; includes automatic and
+  custom events as separate rows, not deduplicated actions.
+* `App Exposure & Clicks`: Catalog app name rows, Event name columns, Event count;
+  filter `^(app_card_view|app_link_click)$`.
+* `Weekly Retention`: first-touch acquisition cohorts, Any event return criterion,
+  weekly granularity, Standard calculation and Active users. Returning users in
+  the daily table are not a substitute for cohort retention.
+* `Section Engagement`: Homepage section rows, Event name columns, Event count;
+  filter `^(section_view|navigation_click)$`.
+
+The new exploration does not replace the existing App Clicks & Social Campaigns
+report or modify `app_store_click` key-event configuration. Default range is
+Last 28 days excluding today. New events/dimensions may be empty until GA4
+processes new traffic; current-day Realtime receipt is separate evidence.
 References: [GA4 page views](https://developers.google.com/analytics/devguides/collection/ga4/views)
 and [enhanced measurement](https://support.google.com/analytics/answer/9216061).
 
