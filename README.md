@@ -380,7 +380,7 @@ Cloudflare DNS points the apex domain and `www` host to GitHub Pages.
 * Repository: https://github.com/ssongyc/sunny-homepage
 * Website: https://sunnyinnolab.com/
 * Legacy World Movie Trailer placeholder: https://sunnyinnolab.com/worldmovietrailer/
-* Legacy Pages URL (redirects to the website): https://ssongyc.github.io/sunny-homepage/
+* Current website (legacy Pages redirects here): https://sunnyinnolab.com
 * Email: `contact@sunnyinnolab.com` is routed directly to Google Workspace.
 
 World Book Ranking and the movie web app use separate hosting/projects; this
