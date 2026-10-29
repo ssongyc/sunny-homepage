@@ -1,6 +1,29 @@
 {
   "root": true,
-  "env": { "browser": true, "es2022": true },
+  "env": {
+    "browser": true,
+    "es2022": true
+  },
   "extends": "eslint:recommended",
-  "parserOptions": { "ecmaVersion": 2022, "sourceType": "script" }
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "script"
+  },
+  "overrides": [
+    {
+      "files": [
+        ".cloudflare/sounds/{worker,drive,order}.js"
+      ],
+      "env": {
+        "browser": false,
+        "serviceworker": true
+      },
+      "parserOptions": {
+        "sourceType": "module"
+      },
+      "globals": {
+        "AbortSignal": "readonly"
+      }
+    }
+  ]
 }

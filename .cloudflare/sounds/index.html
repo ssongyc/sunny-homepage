@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <title>Sounds | Sunny Innovation Lab</title>
+  <link rel="stylesheet" href="/sounds/styles.css" />
+  <script src="/sounds/client.js" defer></script>
+</head>
+<body>
+  <header class="header"><a href="/">Sunny Innovation Lab</a><span class="section-name">Sounds</span><button type="button" id="logout" hidden>로그아웃</button></header>
+  <main>
+    <section id="login" class="login" hidden>
+      <div class="sound-mark" aria-hidden="true">♫</div>
+      <h1>Sounds</h1>
+      <form id="login-form">
+        <label for="password">비밀번호</label>
+        <div class="password-row"><input id="password" name="password" type="password" autocomplete="current-password" required maxlength="128" /><button type="submit">들어가기</button></div>
+      </form>
+    </section>
+    <section id="library" hidden>
+      <div class="title-row"><h1>Sounds</h1><span id="count"></span></div>
+      <nav id="categories" class="categories" aria-label="카테고리"></nav>
+      <nav id="apps" class="apps" aria-label="앱 및 게임"></nav>
+      <div class="list-heading">
+        <!-- html-validate-disable-next empty-heading -- Selected-app text is assigned by navigation(). -->
+        <h2 id="selection"></h2>
+        <button type="button" id="refresh" aria-label="새로고침" title="새로고침">↻</button>
+      </div>
+      <div id="files" class="files"></div>
+      <button type="button" id="more" class="more" hidden>더 보기</button>
+    </section>
+    <p id="error" role="alert" hidden></p>
+  </main>
+  <!-- Lucide icons; license notices: /sounds/licenses.txt -->
+  <svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+    <symbol id="icon-grip" viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="M6 3a1 1 0 0 1 1.517-.856l14 9a1 1 0 0 1 0 1.712l-14 9A1 1 0 0 1 6 21z" /></symbol>
+    <symbol id="icon-pause" viewBox="0 0 24 24"><rect x="14" y="3" width="5" height="18" rx="1"/><rect x="5" y="3" width="5" height="18" rx="1"/></symbol>
+    <symbol id="icon-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+  </defs></svg>
+</body>
+</html>

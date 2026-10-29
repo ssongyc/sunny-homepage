@@ -16,35 +16,263 @@ https://sunnyinnolab.com/
 * `.stylelintrc.json`: CSS correctness checks, without formatting-only rules.
 * `CNAME`: GitHub Pages custom domain (`sunnyinnolab.com`).
 * `sitemap.xml`: sitemap containing the canonical homepage URL only.
-* `robots.txt`: allows crawling and advertises the homepage sitemap.
+* `robots.txt`: allows public-page crawling, excludes `/sounds`, and advertises the homepage sitemap.
 * `worldmovietrailer/index.html`: legacy placeholder with centered World Movie Trailer text; not the separately hosted movie web app.
 * `assets/apps/`: app and game images.
 * `assets/brand/`: official logo, social preview, favicon, and Apple touch icon.
 * `assets/contact-email.svg`: image-based contact email.
 
-This repository is plain HTML/CSS with vanilla JavaScript, without a package
-manager, local build command, or backend. Open `index.html` in a browser for
-local layout preview; publishing is handled by GitHub Pages.
+The homepage is plain HTML/CSS with vanilla JavaScript, without a package
+manager or local build command. Open `index.html` in a browser for local layout
+preview; homepage publishing is handled by GitHub Pages. The separate protected
+Sounds backend below has its own isolated npm dependency and Worker deployment.
+
+## Password-Protected Sounds Library (deployed 2026-10-23)
+
+`/sounds` is a separate Cloudflare Worker, not a GitHub Pages password screen.
+Source and deployment configuration are in `.cloudflare/sounds/` (a dot directory,
+excluded by GitHub Pages' default Jekyll processing). The homepage remains static.
+There is no plaintext password or audio in this repository, no GA4 in the library,
+and no sounds URL in the public sitemap. `robots.txt` disallows `/sounds`; this is
+only crawl guidance, not access control.
+
+The interface selects BGM / Sound Effect, then a homepage app/game, then shows
+filenames with play/pause and download controls. Only one sound plays at a time.
+No demo audio is substituted. Upload/generation UI is not included in this first
+category/list implementation. Add/manage files in the configured Drive folders.
+While the page is visible, the selected category/app's already loaded file pages
+are checked every 30 seconds and reconciled by file ID. New files appear without
+reloading the page or interrupting the current sound. Renames/sizes update in
+place; deleting the currently playing file stops that playback. Hidden tabs
+pause background checks; returning to the tab checks immediately. Polls never
+overlap. Changing selections cancels stale polls; partially failed page batches
+do not replace the visible list. A failed check preserves the list, shows the
+existing connection error, and stops polling until a manual refresh or selection
+change succeeds. Session expiry returns to the password form. No automatic
+network-error retry is added by the list-polling mechanism.
+
+### Shared drag ordering (deployed 2026-10-29)
+
+- Each sound row has a drag handle for mouse/touch reordering. Focus the handle
+  and use Up/Down for keyboard ordering; Escape or pointer cancellation cancels
+  an unfinished drag. Play/download controls and ordinary page scrolling remain
+  separate from the handle. Dragging near the viewport edge scrolls the page.
+- Order is stored by stable Drive file ID for each category/app pair in the
+  `SOUND_ORDERS` SQLite-backed Durable Object. Every authenticated visitor shares
+  the same order across browsers/devices. File names, audio and Drive permissions
+  are not changed. New unranked files appear after ranked files in Drive order;
+  deleted files are omitted while hidden/paginated IDs retain their saved rank.
+- The existing 30-second visible-page refresh fetches the shared order and
+  reconciles existing rows without replacing the playing audio control. Refresh
+  pauses during dragging/saving. Manual refresh and selection changes also load
+  the saved order; new pages are ranked alongside existing rows.
+- `POST /sounds/api/order` requires the existing signed session, same-origin
+  request and a registered folder. It validates unique, scope-bound file keys,
+  integer versions, at most 1,000 keys and a 96 KiB streamed body/record limit.
+  A transactional version check rejects stale edits with HTTP 409. Failed saves
+  restore the previous visible order and require manual refresh; no automatic
+  overwrite or retry is added. Server/storage errors remain visible failures.
+- User-facing save errors are `음원 순서를 저장하지 못했습니다. 새로고침 후 다시 시도해 주세요.`
+  and, for conflicts, `다른 기기에서 순서가 변경되었습니다. 새로고침 후 다시 시도해 주세요.`
+- Deployment must include the client, CSS, HTML, Worker and `order.js` together,
+  plus the `SoundOrder` export, `SOUND_ORDERS` binding and `sound-order-v1`
+  SQLite migration in `wrangler.jsonc`. Preserve existing secrets, Drive read-only
+  access and `/sounds` route boundaries. Do not remove the class/migration on
+  rollback or delete its namespace, as that would discard persisted order.
+- Baseline main HEAD: `438d91c2009d7d6e3e55a9776aefce3ba1e21eaa`; existing dirty
+  README/index.html/robots.txt and untracked `.cloudflare/` work were preserved.
+  Source preparation was followed by the owner's explicit deployment/runtime-QA
+  approval. Wrangler 4.152.0 deployed version `9e219a8b-8175-48fe-925e-cf02dba7b27f`
+  (73.98 KiB upload / 22.23 KiB gzip, startup 5 ms). Browser mouse dragging,
+  refresh persistence and a fresh tab loading the same server order were verified.
+  The temporary city-candidate swap was restored, keeping Correct then Wrong.
+  Chrome-specific QA ended when Computer Use could not establish its URL safely;
+  physical touch devices were not checked. The owner subsequently reported that
+  they independently tested reordering successfully. No lint/unit tests or Git
+  delivery were performed.
+- References: [Durable Object storage](https://developers.cloudflare.com/durable-objects/api/sqlite-storage-api/),
+  [legacy class migrations](https://developers.cloudflare.com/durable-objects/reference/durable-object-class-migrations-legacy/).
+
+### Last visited sound selection (deployed 2026-10-29)
+
+- The last selected category and app/game are saved as IDs in this browser's
+  `localStorage` key `sunny-sounds.last-selection.v1`. Returning to the page,
+  reloading it or logging back in restores the saved pair before requesting files.
+  For example, Sound Effect / Subway Master opens directly after that selection.
+- The selected app tab scrolls into view on initial restoration. A first visit
+  without a record keeps the existing BGM / Subway Master default. No audio,
+  password, session token or sound order is stored in this preference.
+- Last location is per browser profile; the separately deployed audio order stays
+  server-shared. Clearing site data removes the saved location. Invalid records
+  or unavailable browser storage report an error and leave navigation available
+  for an explicit category/app selection, without substituting or overwriting
+  an existing invalid selection automatically. Write failures preserve the
+  selected screen and report that persistence failed.
+- Source changed only `client.js`; the Worker API, shared-order storage and
+  existing authentication remain unchanged. After the owner's explicit approval,
+  deployed with Wrangler 4.152.0 as version `5a9ac0c0-a5f1-4e95-9b89-1cdbd7424491`
+  (75.49 KiB upload / 22.64 KiB gzip, startup 3 ms).
+- Verified in the authenticated in-app browser: Sound Effect / Subway Master
+  survived reload and closing/reopening a tab; Sound Effect / Sky Peacemaker
+  also restored in a new tab after changing the selected game. Final saved
+  location is Sound Effect / Subway Master, with 8 files and no visible error.
+  See [verification record](artifacts/sounds-last-selection-2026-10-29/verification.json)
+  and [screen](artifacts/sounds-last-selection-2026-10-29/confirmation.png).
+  This verifies the same browser profile, not cross-profile location sharing.
+  Browser-process restart, expired-session relogin and physical mobile devices
+  were not exercised. No lint/unit tests, commit or push ran.
+
+### Storage and authentication setup
+
+Published URL: https://sunnyinnolab.com/sounds
+
+Initially, on 2026-10-23 `/sounds` returned a GitHub 404: creating source and
+uploading an audio file did not deploy the Worker. Deployment and routing were
+subsequently completed; the current login page returns HTTP 200.
+Cloudflare browser login was confirmed; Wrangler OAuth was initially expired. R2 was
+not activated (its subscription requires user acceptance); source now uses
+Google Drive instead and no R2 binding/subscription is required.
+
+* Initial browser inspection using `contact@sunnyinnolab.com` confirmed the
+  `BGM > Subway Master` folder contains `subway_master_bright_slow_bgm_80bpm.wav`.
+  The connected Drive tool returned 404 for this folder; browser visibility
+  does not establish Worker/API access.
+* `DRIVE_FOLDERS` maps `category-id/app-id` to allowed Drive folder IDs.
+  `bgm/subway-master` is mapped to the user-supplied folder
+  `1ljzHAdOteiB3iPGnSW2MNO08AFyX8Ocw`. `sound-effect/subway-master` maps to
+  `1WQZ93DdOXvbE1NC-IGMr2aRz8tgAgS1n`. Other selections have no connected folder
+  and return an empty list. Configured but inaccessible folders return errors,
+  not empty success. Only direct children are listed; shortcuts are excluded.
+  Supported extensions: mp3, wav, ogg, m4a, aac, flac, webm. Browsers may differ
+  in codec support; unsupported playback reports an error, not another sound.
+* On 2026-10-23, created `Sunny Sounds Reader` in the existing empty service-account
+  project `windy-orb-475621-q9`, with no project roles or domain-wide delegation:
+  `sunny-sounds-reader@windy-orb-475621-q9.iam.gserviceaccount.com`.
+  Enabled Google Drive API and confirmed its Enabled status. After action-time
+  user confirmation, shared only the selected Subway Master folder as Viewer.
+  A later sharing readback unexpectedly showed general access as
+  anyone-with-link / Editor, unlike the earlier Restricted state. Its origin
+  is unknown. The user explicitly chose to KEEP anyone-with-link / Editor on
+  2026-10-23; do not change it to Restricted without a new instruction.
+  Consequently, the website password does NOT make the Drive audio confidential
+  or prevent direct Drive access/editing. The service account's explicit role
+  is Viewer and the server requests only read-only API scope.
+  The user created/downloaded its JSON key; the key was then validated against
+  this exact service-account email and registered as a Cloudflare Worker secret.
+* Store its JSON credential as Worker **secret** `GOOGLE_SERVICE_ACCOUNT`, not
+  in this repository, chat, browser code or command history. The server requests
+  `drive.readonly` scope and additionally checks every requested audio file's
+  current parent against the configured folder for that category/app. The
+  dedicated account must not be shared unrelated files. Token exchange uses
+  `jose` for JWT signing and fixed Google endpoints; no automatic request retry.
+  Worker fetches use `redirect: 'manual'` and reject non-success responses:
+  Workers does not support `redirect: 'error'` (the initial production failure).
+  API failures expose only fixed diagnostic codes and upstream HTTP status,
+  never tokens, private keys, provider error bodies or raw exception messages.
+* Configure `PASSWORD_VERIFIER` as a Worker **secret**, formatted
+  `100000:<base64url random salt>:<base64url PBKDF2-SHA256 32-byte hash>`.
+  The password is the user's approved value; never write it into source,
+  command history, a tracked configuration file, or this README.
+* Configure independent random `SESSION_SECRET` (at least 32 characters) as a
+  Worker secret. Secret creation/entry is a separate account setup step.
+* Ensure the apex DNS record is Cloudflare-proxied before installing the two
+  exact `/sounds` and `/sounds/*` Worker routes in `wrangler.jsonc`. Preserve
+  existing homepage DNS origin and TLS settings; never route `/*` to this Worker.
+* Install this subdirectory's locked npm dependency with `npm ci`, then use
+  Wrangler from this subdirectory for authorized deployment. The rate-limit
+  binding allows five login attempts per minute per client IP per Cloudflare
+  location; it is not a globally exact brute-force counter. Confirm namespace
+  `2026102201` is unused by another binding before deploying.
+
+Every library and audio request requires a signed, Secure, HttpOnly, SameSite
+cookie (8-hour lifetime). POST requests check same-origin; login bodies are
+bounded and password verification uses PBKDF2. Private responses are no-store
+and noindex. Audio supports byte ranges for seeking and attachment downloads.
+Logout clears the browser cookie; an already copied token remains valid until
+expiry. Rotating `SESSION_SECRET` invalidates all sessions when explicitly
+authorized. The shared password does not provide individual user accounts.
+
+No build, lint, automated test, deployment or runtime security verification was
+performed as part of initial source creation. Before calling the service live,
+verify signed-out list/audio rejection, wrong-password/rate-limit handling,
+login/logout, range playback, downloads and unchanged homepage behavior.
+On 2026-10-23, installed the isolated lockfile with
+`npm ci --ignore-scripts --no-audit --no-fund` and ran
+`npx --yes wrangler deploy --dry-run` (Wrangler 4.152.0): passed, 59.48 KiB
+upload / 18.50 KiB gzip. This was local bundling, not a deployment or runtime test.
+Wrangler OAuth subsequently completed successfully with account/user read,
+Worker script/route write and zone read scopes (plus required background access).
+After action-time user confirmation, enabled Cloudflare proxying on the four
+apex A records, preserving all four GitHub IPs (`185.199.108.153` through
+`185.199.111.153`). MX/TXT, www, World Book Ranking and World Movie Trailer
+records were not changed. Only `/sounds` and `/sounds/*` invoke this Worker.
+
+### Deployment verification (2026-10-23)
+
+* Initial verified Worker version: `18963e5d-f7a7-4418-8041-0b72158e1c5f`, Wrangler 4.152.0;
+  upload 60.05 KiB / gzip 18.64 KiB; startup 1 ms.
+* Registered secret names: `GOOGLE_SERVICE_ACCOUNT`, `PASSWORD_VERIFIER`,
+  `SESSION_SECRET`. Secret values were not printed or committed. Transient
+  credential/login payload files were removed; the user's original downloaded
+  JSON key remains outside this repository.
+* Main homepage and `/sounds`: HTTP 200 over HTTPS. Signed-out file list and
+  audio requests: HTTP 401. Successful password login and Drive list: HTTP 200.
+* `BGM > Subway Master` shows the actual WAV (8,467,244 bytes). Browser play
+  switches to pause with no displayed error; pause and category/app switching
+  were exercised. No claim of an independent audible listening assessment.
+* Audio HEAD: 200, length 8,467,244. Range `bytes=0-63`: 206, 64 bytes,
+  `Content-Range: bytes 0-63/8467244`, RIFF header. Full download: 200,
+  attachment disposition, 8,467,244 bytes, MD5 `d0330f07a476117d32b1def18c06fc57`.
+* Logout endpoint: 200 and cookie expiration (`Max-Age=0`). No lint or automated
+  test suite was run. Wrong-password/rate-limit runtime behavior, session expiry,
+  other browsers/codecs and mobile viewports remain unverified.
+
+Automatic-list update deployed later on 2026-10-23 as Worker version
+`48b3608e-019d-4b34-b4db-72b0b0093ae4` (63.61 KiB / gzip 19.56 KiB,
+startup 2 ms). The served client includes the 30-second timer, visibility
+lifecycle and keyed reconciliation. The existing browser tab was reloaded once
+to install the new client. No audio was uploaded, renamed or deleted to simulate
+a change, and no lint or automated test suite was run for this update.
+
+Sound Effect folder connection deployed on 2026-10-23 as Worker version
+`86b44904-2238-4ba4-9da7-a7e3be60e2e6` (63.61 KiB / gzip 19.56 KiB,
+startup 2 ms). After explicit user confirmation, granted the existing reader
+service account Viewer access to folder `1WQZ93DdOXvbE1NC-IGMr2aRz8tgAgS1n`
+and mapped it to `Sound Effect > Subway Master`. Direct service-account listing
+succeeded with zero files; the production category opened without a displayed
+error. No audio playback/download was possible for this empty folder. Future
+supported files added directly to it use the existing 30-second list checks.
+General access initially showed Restricted, but the post-share readback showed
+anyone-with-link / Editor. No general-access control was changed by this work;
+the origin of that change is unknown and the observed setting was left intact.
+The user was informed that direct Drive access is not protected by the site
+password. No lint or automated test suite was run for this connection update.
+
+References: [Worker routes](https://developers.cloudflare.com/workers/configuration/routing/routes/),
+[rate-limit binding](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/),
+[Google service-account authentication](https://developers.google.com/identity/protocols/oauth2/service-account),
+[Drive downloads](https://developers.google.com/workspace/drive/api/guides/manage-downloads),
+[Workers request redirect modes](https://developers.cloudflare.com/workers/runtime-apis/request/).
 
 ### Lint
 
 Lint the shipped JavaScript with ESLint 8 and `.eslintrc.json`:
 
 ```powershell
-npx --yes eslint@8.57.1 analytics.js --max-warnings 0
+npx --yes eslint@8.57.1 analytics.js ".cloudflare/sounds/*.js" --no-ignore --max-warnings 0
 ```
 
 This is a development-only tool, not a shipped dependency or a build step.
 This command may download ESLint into npm's cache if it is not installed.
 ESLint 8 is used here to match the existing installed workstation tool; the
 legacy configuration is not an ESLint 9+ flat config. This lint scope covers
-`analytics.js`, not HTML, CSS, JSON-LD, accessibility or runtime event receipt.
+`analytics.js` and all four Sounds JavaScript modules. The Worker/Drive/order files use a scoped ES-module/service-worker override; the client keeps browser globals. `--no-ignore` includes the authored dot-directory files explicitly. This does not validate HTML, CSS, JSON-LD, accessibility or runtime event receipt.
 
 HTML and CSS validation commands (development-only npm cache tools):
 
 ```powershell
-npx --yes html-validate@11.16.2 index.html worldmovietrailer/index.html
-npx --yes stylelint@17.16.0 styles.css --config .stylelintrc.json
+npx --yes html-validate@11.16.2 index.html worldmovietrailer/index.html .cloudflare/sounds/index.html
+npx --yes stylelint@17.16.0 styles.css .cloudflare/sounds/styles.css --config .stylelintrc.json
 ```
 
 The CSS rules check syntax-related correctness, unknown properties/functions,
@@ -481,3 +709,53 @@ No build, lint or tests are rerun for this delivery. The verification results
 above describe the prior authorized checks. GitHub Pages publication is
 triggered by pushing main; production completion and post-publication checks
 are not newly verified in this commit/push-only task.
+
+
+### October 29, 2026 maintenance and lint follow-up
+
+Reviewed homepage/Sounds runtime entry points, Worker routes/exports, HTML/CSS
+asset references and the existing README. No safely removable unused runtime
+file, asset or API was established. Original artwork, the intentional legacy
+World Movie Trailer URL and the retained deployment/QA evidence remain intact.
+Both current README local file links exist. Historical dated verification notes
+are preserved; the current robots description and lint commands were corrected.
+
+The former browser-global `stop()` helper is now named `stopPlayback()` with the
+same callers and behavior. Sounds HTML buttons explicitly declare their type.
+The intentionally dynamic selected-app heading has a narrowly scoped HTML lint
+annotation because navigation assigns its selected-app text dynamically.
+No placeholder app label or new user-facing notice was introduced. Worker
+modules are parsed as ES modules instead of browser scripts with the actual
+Cloudflare `AbortSignal` global declared. The bounded streaming-read loops use
+the equivalent `for (;;)` form. The existing security filter for control bytes
+has one documented `no-control-regex` annotation; the filter is preserved. Unused-variable
+rules remain enabled. These source/markup changes are local and are not part of
+Worker version `5a9ac0c0-a5f1-4e95-9b89-1cdbd7424491` until separately deployed.
+Final lint results (all exit 0): ESLint 8.57.1 for `analytics.js` plus the four
+Sounds JavaScript modules with `--max-warnings 0`; html-validate 11.16.2 for the
+three HTML pages; Stylelint 17.16.0 for both stylesheets. Initial failures were
+module parsing/browser-global shadowing, implicit button types, the dynamic
+heading and Worker-specific globals/intentional constructs; those were resolved
+without disabling unused-variable rules or weakening the audio-key filter.
+No build, automated test suite, runtime QA, commit, push or deployment ran for
+this maintenance. The lint results do not certify runtime/browser behavior.
+
+
+### October 29, 2026 main delivery scope
+
+This delivery includes all reviewed pending homepage/Sounds work from the
+conversation: the Subway Master Drive BGM link, `/sounds` crawl exclusion,
+complete isolated Worker source/configuration/dependency lockfile, shared drag
+ordering, browser-local last selection and their deployment/QA records, plus
+the subsequent local JavaScript/HTML lint corrections and scoped ESLint config.
+No unrelated-contributor file or unresolved-origin change was found. Existing
+historical verification notes remain intact.
+
+The latest deployed Worker remains `5a9ac0c0-a5f1-4e95-9b89-1cdbd7424491`.
+Pushing source does not deploy the later Worker lint/markup corrections; those
+still require an authorized Worker deployment. GitHub Pages continues to own
+the static homepage. No secret values, `.dev.vars`/`.env` files, dependency
+installation directory or Wrangler cache is included. All 17 reviewed changed
+files are included; no uncommitted source/resource change is intentionally left
+out of this repository. No build, lint, tests or runtime QA is repeated and no
+manual deployment is run for this Git delivery. The commit uses `[skip ci]`.
